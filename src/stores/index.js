@@ -1,7 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-function initState() {}
+function initState() {
+   return {
+      isCollapse: false,
+   }
+}
 
 export const useAllDataStore = defineStore('allData', () => {
    // ref  state 属性

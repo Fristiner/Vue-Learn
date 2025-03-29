@@ -1,7 +1,8 @@
 <template>
-   <el-aside>
-      <el-menu background-color="#545c64" text-color="#fff">
-         <h3>通用后台管理系统</h3>
+   <el-aside :width="width">
+      <el-menu background-color="#545c64" text-color="#fff" :collapse="isCollapse">
+         <h3 v-show="!isCollapse">通用后台管理系统</h3>
+         <h3 v-show="isCollapse">后台</h3>
          <el-menu-item v-for="item in noChildren" :index="item.path" :key="item.path">
             <!-- <el-icon><setting /></el-icon> -->
             <component class="icons" :is="item.icon"></component>
@@ -29,6 +30,7 @@
    import { it } from 'element-plus/es/locales.mjs'
    import { ref, computed } from 'vue'
    import { useRouter } from 'vue-router'
+   import { useAllDataStore } from '../stores'
    const router = useRouter
 
    const list = ref([
@@ -78,6 +80,10 @@
    const noChildren = computed(() => list.value.filter((item) => !item.children))
    const hasChildren = computed(() => list.value.filter((item) => item.children))
 
+   const store = useAllDataStore()
+   const isCollapse = computed(() => store.state.isCollapse)
+   //width
+   const width = computed(() => (store.state.isCollapse ? '64px' : '240px'))
    const clickMenu = (item) => {
       router.push(item.path)
    }
@@ -99,7 +105,6 @@
       }
    }
    .el-aside {
-      width: 240px;
       height: 100%;
       background-color: #545c64;
    }
