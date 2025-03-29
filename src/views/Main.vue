@@ -1,11 +1,9 @@
 <script setup>
-
+import CommonAside from '@/components/CommonAside.vue';
 </script>
 
 
 <template>
-
-
   <div class="common-layout">
     <el-container class="lay-container">
         <!-- 自定义的左侧的组件 -->
@@ -28,8 +26,12 @@
 </template>
 
 <style scoped lang="less">
-  .common-layout,lay-container{
-    // width: 100%;
+  .common-layout{
+    width: 100%;
+    height: 100vh;
+  }
+  .lay-container{
+    width: 100%;
     height: 100%;
   }
   .el-header{
