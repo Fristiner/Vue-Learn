@@ -10,5 +10,8 @@ export default defineConfig({
         find:"@", replacement:"/src",
       }
     ]
+    // alias:{
+    //   '@': resolve('src'),
+    // },
   },
 })
