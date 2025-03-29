@@ -1,11 +1,15 @@
 import { createApp } from 'vue';
 import "@/assets/less/index.less";
 import App from './App.vue';
+// import ElementPlus from 'element-plus'
+// import 'element-plus/dist/index.css'
 
 import router from "./router/index.js";
 
 const app = createApp(App);
 
-app.use(router).mount('#app');
+app.use(router);
+// app.use(ElementPlus);
+app.mount('#app');
 
 // createApp(App).mount('#app')
