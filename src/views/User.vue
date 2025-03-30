@@ -12,12 +12,8 @@
    </div>
    <div class="table">
       <el-table :data="tableData" style="width: 100%">
-         <el-table-column fixed prop="date" label="Date" width="150" />
-         <el-table-column prop="name" label="Name" width="120" />
-         <el-table-column prop="state" label="State" width="120" />
-         <el-table-column prop="city" label="City" width="120" />
-         <el-table-column prop="address" label="Address" width="600" />
-         <el-table-column prop="zip" label="Zip" width="120" />
+         <el-table-column v-for="item in tableLabel" :key="item.prop" :width="item.width ? item.width : 125" :prop="item.prop" :label="item.label" />
+
          <el-table-column fixed="right" label="Operations" min-width="120">
             <template #default="scope">
                <el-button type="primary" size="small" @click="handleClick(scope.row)">编辑</el-button>
@@ -26,98 +22,48 @@
          </el-table-column>
       </el-table>
    </div>
-   <!-- 弹窗 -->
-   <el-dialog v-model="dialogVisible" title="编辑用户信息">
-      <el-form :model="editForm" label-width="100px">
-         <el-form-item label="Date">
-            <el-input v-model="editForm.date" />
-         </el-form-item>
-         <el-form-item label="Name">
-            <el-input v-model="editForm.name" />
-         </el-form-item>
-         <el-form-item label="State">
-            <el-input v-model="editForm.state" />
-         </el-form-item>
-         <el-form-item label="City">
-            <el-input v-model="editForm.city" />
-         </el-form-item>
-         <el-form-item label="Address">
-            <el-input v-model="editForm.address" />
-         </el-form-item>
-         <el-form-item label="Zip">
-            <el-input v-model="editForm.zip" />
-         </el-form-item>
-      </el-form>
-      <template #footer>
-         <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="saveEdit">保存</el-button>
-         </span>
-      </template>
-   </el-dialog>
 </template>
 
 <script setup>
-   import { ref, reactive } from 'vue';
+   import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
 
-   const handleClick = (row) => {
-      dialogVisible.value = true;
-      Object.assign(editForm, row);
+   const { proxy } = getCurrentInstance();
+   const tableData = ref([]);
+   const getUserDataList = async () => {
+      let data = await proxy.$api.getUserData();
+      console.log(data);
+      tableData.value = data.list.map((item) => ({
+         ...item,
+         sexLabel: item.sex === 1 ? '男' : '女',
+      }));
    };
-
-   const saveEdit = () => {
-      // 保存编辑逻辑
-      dialogVisible.value = false;
-   };
-
-   const dialogVisible = ref(false);
-   const editForm = reactive({
-      date: '',
-      name: '',
-      state: '',
-      city: '',
-      address: '',
-      zip: '',
+   const tableLabel = reactive([
+      {
+         prop: 'name',
+         label: '姓名',
+      },
+      {
+         prop: 'age',
+         label: '年龄',
+      },
+      {
+         prop: 'sexLabel',
+         label: '性别',
+      },
+      {
+         prop: 'birth',
+         label: '出生日期',
+         width: 200,
+      },
+      {
+         prop: 'addr',
+         label: '地址',
+         width: 400,
+      },
+   ]);
+   onMounted(() => {
+      getUserDataList();
    });
-
-   const tableData = [
-      {
-         date: '2016-05-03',
-         name: 'Tom',
-         state: 'California',
-         city: 'Los Angeles',
-         address: 'No. 189, Grove St, Los Angeles',
-         zip: 'CA 90036',
-         tag: 'Home',
-      },
-      {
-         date: '2016-05-02',
-         name: 'Tom',
-         state: 'California',
-         city: 'Los Angeles',
-         address: 'No. 189, Grove St, Los Angeles',
-         zip: 'CA 90036',
-         tag: 'Office',
-      },
-      {
-         date: '2016-05-04',
-         name: 'Tom',
-         state: 'California',
-         city: 'Los Angeles',
-         address: 'No. 189, Grove St, Los Angeles',
-         zip: 'CA 90036',
-         tag: 'Home',
-      },
-      {
-         date: '2016-05-01',
-         name: 'Tom',
-         state: 'California',
-         city: 'Los Angeles',
-         address: 'No. 189, Grove St, Los Angeles',
-         zip: 'CA 90036',
-         tag: 'Office',
-      },
-   ];
 </script>
 
 <style scoped lang="less">
