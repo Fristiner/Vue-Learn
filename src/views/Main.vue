@@ -14,7 +14,7 @@
                <!-- </common-header> -->
             </el-header>
             <el-main class="right-main">
-               <router-view></router-view>
+               <router-view to="/home"> </router-view>
             </el-main>
          </el-container>
       </el-container>

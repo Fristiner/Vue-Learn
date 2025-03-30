@@ -1,7 +1,36 @@
 <script setup>
+   import { ref } from 'vue'
+
    const getImageUrl = (user) => {
       return new URL(`../assets/images/${user}.png`, import.meta.url).href
    }
+   const tableData = ref([
+      {
+         name: 'Java',
+         todayBuy: 100,
+         monthBuy: 200,
+         totalBuy: 300,
+      },
+      {
+         name: 'Python',
+         todayBuy: 100,
+         monthBuy: 200,
+         totalBuy: 300,
+      },
+      {
+         name: 'Go',
+         todayBuy: 200,
+         monthBuy: 123,
+         totalBuy: 223,
+      },
+   ])
+
+   const tableLabel = ref({
+      name: '课程',
+      todayBuy: '今日购买',
+      monthBuy: '本月购买',
+      totalBuy: '总购买',
+   })
 </script>
 
 <template>
@@ -26,6 +55,11 @@
                      <span>北京</span>
                   </p>
                </div>
+            </el-card>
+            <el-card shadow="hover" class="user-table">
+               <el-table :data="tableData">
+                  <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val"> </el-table-column>
+               </el-table>
             </el-card>
          </el-col>
       </el-row>
@@ -71,6 +105,9 @@
                margin-left: 60px;
             }
          }
+      }
+      .user-table {
+         margin-top: 20px;
       }
    }
 </style>
