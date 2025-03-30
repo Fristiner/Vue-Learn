@@ -14,4 +14,11 @@ export default {
          mock: false,
       });
    },
+   getCountData() {
+      return request({
+         url: '/home/getCountData',
+         method: 'get',
+         mock: false,
+      });
+   },
 };

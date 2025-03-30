@@ -21,33 +21,23 @@
 
    const getTableData = async () => {
       const data = await proxy.$api.getTableData();
-      console.log(data);
+      // console.log(data);
       tableData.value = data.tableData;
    };
 
+   const getCountData = async () => {
+      const data = await proxy.$api.getCountData();
+      console.log(data);
+      countData.value = data;
+      console.log(countData);
+   };
    onMounted(() => {
       getTableData();
+      getCountData();
    });
-   const tableData = ref([
-      {
-         name: 'Java',
-         todayBuy: 100,
-         monthBuy: 200,
-         totalBuy: 300,
-      },
-      {
-         name: 'Python',
-         todayBuy: 100,
-         monthBuy: 200,
-         totalBuy: 300,
-      },
-      {
-         name: 'Go',
-         todayBuy: 200,
-         monthBuy: 123,
-         totalBuy: 223,
-      },
-   ]);
+   const tableData = ref([]);
+
+   const countData = ref([]);
 
    const tableLabel = ref({
       name: '课程',
@@ -85,6 +75,17 @@
                   <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val"> </el-table-column>
                </el-table>
             </el-card>
+         </el-col>
+         <el-col :span="16" style="margin-top: 20px">
+            <div class="num">
+               <el-card :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData" :key="item.name">
+                  <component :is="item.icon" class="icons" :style="{ background: item.color }"></component>
+                  <div class="detail">
+                     <p class="num">￥{{ item.value }}</p>
+                     <p class="txt">￥{{ item.name }}</p>
+                  </div>
+               </el-card>
+            </div>
          </el-col>
       </el-row>
    </div>
@@ -132,6 +133,38 @@
       }
       .user-table {
          margin-top: 20px;
+      }
+      .num {
+         display: flex;
+         flex-wrap: wrap;
+         justify-content: space-between;
+         .el-card {
+            width: 32%;
+            margin-bottom: 20px;
+         }
+         .icons {
+            width: 80px;
+            height: 80px;
+            font-size: 30px;
+            text-align: center;
+            line-height: 80px;
+            color: #fff;
+         }
+         .detail {
+            margin-left: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .num {
+               font-size: 30px;
+               margin-bottom: 10px;
+            }
+            .txt {
+               font-size: 15px;
+               text-align: center;
+               color: #999;
+            }
+         }
       }
    }
 </style>
