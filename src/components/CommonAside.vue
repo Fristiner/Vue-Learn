@@ -27,11 +27,11 @@
 </template>
 
 <script setup>
-   import { it } from 'element-plus/es/locales.mjs'
-   import { ref, computed } from 'vue'
-   import { useRouter } from 'vue-router'
-   import { useAllDataStore } from '../stores'
-   const router = useRouter
+   import { it } from 'element-plus/es/locales.mjs';
+   import { ref, computed } from 'vue';
+   import { useRouter } from 'vue-router';
+   import { useAllDataStore } from '../stores';
+   const router = useRouter;
 
    const list = ref([
       {
@@ -76,17 +76,17 @@
             },
          ],
       },
-   ])
-   const noChildren = computed(() => list.value.filter((item) => !item.children))
-   const hasChildren = computed(() => list.value.filter((item) => item.children))
+   ]);
+   const noChildren = computed(() => list.value.filter((item) => !item.children));
+   const hasChildren = computed(() => list.value.filter((item) => item.children));
 
-   const store = useAllDataStore()
-   const isCollapse = computed(() => store.state.isCollapse)
+   const store = useAllDataStore();
+   const isCollapse = computed(() => store.state.isCollapse);
    //width
-   const width = computed(() => (store.state.isCollapse ? '64px' : '240px'))
+   const width = computed(() => (store.state.isCollapse ? '64px' : '240px'));
    const clickMenu = (item) => {
-      router.push(item.path)
-   }
+      router.push(item.path);
+   };
 </script>
 
 <style scoped lang="less">

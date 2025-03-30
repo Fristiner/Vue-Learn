@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 // 制定路由规则
 
@@ -16,12 +16,12 @@ const routes = [
          },
       ],
    },
-]
+];
 
 const router = createRouter({
    // 设置路由的模式
    history: createWebHashHistory(),
    routes: routes,
-})
+});
 
-export default router
+export default router;

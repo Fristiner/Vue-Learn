@@ -1,22 +1,33 @@
 <script setup>
-   import { ref } from 'vue'
-   import axios, { Axios } from 'axios'
+   import { ref, getCurrentInstance, onMounted } from 'vue';
+   //  import axios, { Axios } from 'axios';
    const getImageUrl = (user) => {
-      return new URL(`../assets/images/${user}.png`, import.meta.url).href
-   }
+      return new URL(`../assets/images/${user}.png`, import.meta.url).href;
+   };
 
-   axios({
-      url: '/api/home/getTableData',
-      method: 'get',
-   }).then((res) => {
-      // 把交互请求数据的流程 根据接口文档 跑通
-      //
-      if (res.data.code === 200) {
-         console.log(res.data.data.tableData)
-         tableData.value = res.data.data.tableData
-      }
-   })
+   //  axios({
+   //     url: '/api/home/getTableData',
+   //     method: 'get',
+   //  }).then((res) => {
+   //     // 把交互请求数据的流程 根据接口文档 跑通
+   //     //
+   //     if (res.data.code === 200) {
+   //        console.log(res.data.data.tableData);
+   //        tableData.value = res.data.data.tableData;
+   //     }
+   //  });
 
+   const { proxy } = getCurrentInstance();
+
+   const getTableData = async () => {
+      const data = await proxy.$api.getTableData();
+      console.log(data);
+      tableData.value = data.tableData;
+   };
+
+   onMounted(() => {
+      getTableData();
+   });
    const tableData = ref([
       {
          name: 'Java',
@@ -36,14 +47,14 @@
          monthBuy: 123,
          totalBuy: 223,
       },
-   ])
+   ]);
 
    const tableLabel = ref({
       name: '课程',
       todayBuy: '今日购买',
       monthBuy: '本月购买',
       totalBuy: '总购买',
-   })
+   });
 </script>
 
 <template>

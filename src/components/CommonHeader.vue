@@ -26,19 +26,19 @@
 </template>
 
 <script setup>
-   import { it } from 'element-plus/es/locales.mjs'
-   import { ref, computed } from 'vue'
+   import { it } from 'element-plus/es/locales.mjs';
+   import { ref, computed } from 'vue';
    const getImageUrl = (user) => {
       //  当前的绝对
-      return new URL(`../assets/images/${user}.png`, import.meta.url).href
-   }
-   import { useAllDataStore } from '../stores'
+      return new URL(`../assets/images/${user}.png`, import.meta.url).href;
+   };
+   import { useAllDataStore } from '../stores';
 
-   const store = useAllDataStore()
+   const store = useAllDataStore();
 
    const handleCollapse = () => {
-      store.state.isCollapse = !store.state.isCollapse
-   }
+      store.state.isCollapse = !store.state.isCollapse;
+   };
 </script>
 
 <style scoped lang="less">

@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 function initState() {
    return {
       isCollapse: false,
-   }
+   };
 }
 
 export const useAllDataStore = defineStore('allData', () => {
@@ -12,9 +12,9 @@ export const useAllDataStore = defineStore('allData', () => {
    // computed  getters
    // function  actions
 
-   const state = ref(initState())
+   const state = ref(initState());
 
    return {
       state,
-   }
-})
+   };
+});
