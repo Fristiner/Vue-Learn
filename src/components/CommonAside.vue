@@ -3,7 +3,7 @@
       <el-menu background-color="#545c64" text-color="#fff" :collapse="isCollapse" :collapse-transition="false">
          <h3 v-show="!isCollapse">通用后台管理系统</h3>
          <h3 v-show="isCollapse">后台</h3>
-         <el-menu-item v-for="item in noChildren" :index="item.path" :key="item.path">
+         <el-menu-item v-for="item in noChildren" :index="item.path" :key="item.path" @click="clickMenu(item)">
             <!-- <el-icon><setting /></el-icon> -->
             <component class="icons" :is="item.icon"></component>
             <span>{{ item.label }}</span>
@@ -16,7 +16,7 @@
                <span>{{ item.label }}</span>
             </template>
             <el-menu-item-group>
-               <el-menu-item v-for="(subItem, subIndex) in item.children" :index="subItem.path" :key="subItem.path">
+               <el-menu-item v-for="(subItem, subIndex) in item.children" :index="subItem.path" :key="subItem.path" @click="clickMenu(subItem)">
                   <component class="icons" :is="subItem.icon"></component>
                   <span>{{ subItem.label }}</span>
                </el-menu-item>
@@ -27,11 +27,10 @@
 </template>
 
 <script setup>
-   import { it } from 'element-plus/es/locales.mjs';
    import { ref, computed } from 'vue';
    import { useRouter } from 'vue-router';
    import { useAllDataStore } from '../stores';
-   const router = useRouter;
+   const router = useRouter();
 
    const list = ref([
       {

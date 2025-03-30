@@ -1,21 +1,10 @@
 <script setup>
-   import { ref, getCurrentInstance, onMounted } from 'vue';
+   import { ref, getCurrentInstance, onMounted, reactive } from 'vue';
+
    //  import axios, { Axios } from 'axios';
    const getImageUrl = (user) => {
       return new URL(`../assets/images/${user}.png`, import.meta.url).href;
    };
-
-   //  axios({
-   //     url: '/api/home/getTableData',
-   //     method: 'get',
-   //  }).then((res) => {
-   //     // 把交互请求数据的流程 根据接口文档 跑通
-   //     //
-   //     if (res.data.code === 200) {
-   //        console.log(res.data.data.tableData);
-   //        tableData.value = res.data.data.tableData;
-   //     }
-   //  });
 
    const { proxy } = getCurrentInstance();
 
@@ -24,16 +13,21 @@
       // console.log(data);
       tableData.value = data.tableData;
    };
-
+   const getChartData = async () => {
+      const data = await proxy.$api.getChartData();
+      // console.log(data);
+      chartData.value = data;
+   };
    const getCountData = async () => {
       const data = await proxy.$api.getCountData();
-      console.log(data);
+      // console.log(data);
       countData.value = data;
       console.log(countData);
    };
    onMounted(() => {
       getTableData();
       getCountData();
+      getChartData();
    });
    const tableData = ref([]);
 
@@ -45,6 +39,8 @@
       monthBuy: '本月购买',
       totalBuy: '总购买',
    });
+
+   const chartData = ref([]);
 </script>
 
 <template>
@@ -78,7 +74,7 @@
          </el-col>
          <el-col :span="16" style="margin-top: 20px">
             <div class="num">
-               <el-card :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData" :key="item.name">
+               <el-card shadow="hover" :body-style="{ display: 'flex', padding: 0 }" v-for="item in countData" :key="item.name">
                   <component :is="item.icon" class="icons" :style="{ background: item.color }"></component>
                   <div class="detail">
                      <p class="num">￥{{ item.value }}</p>
@@ -143,8 +139,8 @@
             margin-bottom: 20px;
          }
          .icons {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             font-size: 30px;
             text-align: center;
             line-height: 80px;

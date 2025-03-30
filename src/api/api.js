@@ -18,7 +18,13 @@ export default {
       return request({
          url: '/home/getCountData',
          method: 'get',
-         mock: false,
+         mock: true,
+      });
+   },
+   getChartData() {
+      return request({
+         url: '/home/getChartData',
+         method: 'get',
       });
    },
 };
