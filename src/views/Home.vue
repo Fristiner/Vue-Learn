@@ -1,9 +1,22 @@
 <script setup>
    import { ref } from 'vue'
-
+   import axios, { Axios } from 'axios'
    const getImageUrl = (user) => {
       return new URL(`../assets/images/${user}.png`, import.meta.url).href
    }
+
+   axios({
+      url: '/api/home/getTableData',
+      method: 'get',
+   }).then((res) => {
+      // 把交互请求数据的流程 根据接口文档 跑通
+      //
+      if (res.data.code === 200) {
+         console.log(res.data.data.tableData)
+         tableData.value = res.data.data.tableData
+      }
+   })
+
    const tableData = ref([
       {
          name: 'Java',

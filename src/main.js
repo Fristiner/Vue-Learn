@@ -6,7 +6,7 @@ import App from './App.vue'
 
 import router from './router/index.js'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
+import '@/api/mock.js'
 import { createPinia } from 'pinia'
 const pinia = createPinia()
 
