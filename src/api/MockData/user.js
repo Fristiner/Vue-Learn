@@ -51,4 +51,20 @@ export default {
          },
       };
    },
+   deleteUser: (config) => {
+      const { id } = param2Obj(config.url);
+
+      if (!id) {
+         return {
+            code: -999,
+            message: '参数不正确',
+         };
+      } else {
+         List = List.filter((u) => u.id !== id);
+         return {
+            code: 200,
+            message: '删除成功',
+         };
+      }
+   },
 };
