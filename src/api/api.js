@@ -34,4 +34,11 @@ export default {
          data,
       });
    },
+   deleteUser(data) {
+      return request({
+         url: '/user/delete',
+         method: 'get',
+         data,
+      });
+   },
 };

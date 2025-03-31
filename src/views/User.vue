@@ -14,9 +14,10 @@
       <el-table :data="tableData" style="width: 100%">
          <el-table-column v-for="item in tableLabel" :key="item.prop" :width="item.width ? item.width : 125" :prop="item.prop" :label="item.label" />
          <el-table-column fixed="right" label="Operations" min-width="120" class="operation">
-            <template #default="scope" style="display: flex">
-               <el-button type="primary" size="small" @click="handleClick(scope.row)" class="edit">编辑</el-button>
-               <el-button type="primary" size="small" class="delete">删除</el-button>
+            <template #="scoped">
+               <el-button type="primary" size="small" @click="handleClick(scoped.row)">编辑</el-button>
+               <el-button type="primary" size="small" @click="handleDelete(scoped.row)">删除</el-button>
+               <el-button type="primary" size="small" @click="open()">test</el-button>
             </template>
          </el-table-column>
       </el-table>
@@ -25,6 +26,7 @@
 </template>
 
 <script setup>
+   import { ElMessage, ElMessageBox } from 'element-plus';
    import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
 
    const { proxy } = getCurrentInstance();
@@ -34,6 +36,50 @@
       total: 0,
       page: 1,
    });
+
+   const open = () => {
+      console.log('open() is used');
+      ElMessageBox.confirm('proxy will permanently delete the file. Continue?', 'Warning', {
+         confirmButtonText: 'OK',
+         cancelButtonText: 'Cancel',
+         type: 'warning',
+      })
+         .then(() => {
+            ElMessage({
+               type: 'success',
+               message: 'Delete completed',
+            });
+         })
+         .catch(() => {
+            ElMessage({
+               type: 'info',
+               message: 'Delete canceled',
+            });
+         });
+
+      console.log('open() is used');
+   };
+
+   const handleDelete = async (val) => {
+      console.log(val, '正要删除');
+      await proxy.$api.deleteUser({ id: val.id });
+      getUserDataList();
+
+      // ElMessageBox.confirm('确定要删除吗？', {
+      //    confirmButtonText: '确定',
+      //    cancelButtonText: '取消',
+      //    type: 'warning',
+      // }).then(async () => {
+      //    console.log('用户点击了确认');
+      //    await proxy.$api.deleteUser({ id: val.id });
+      //    ElMessage({
+      //       showClose: true,
+      //       message: '删除成功',
+      //       type: '删除成功',
+      //    });
+      //    getUserDataList();
+      // });
+   };
 
    const getUserDataList = async () => {
       let data = await proxy.$api.getUserData(config);
